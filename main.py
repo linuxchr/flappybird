@@ -23,15 +23,17 @@ def gameLoop():
 
 def init():
     global screen, bird, gravity, bird_movement, bird_rect
-    gravity = 0.25
+    gravity = 0.7
     bird_movement = 0
     pygame.init()
+    pygame.display.set_caption('FlappyTriangle')
     clock = pygame.time.Clock()
     screen = pygame.display.set_mode((576,1024))
     bird = pygame.image.load("assets/bird.png").convert()
     bird = pygame.transform.scale2x(bird)
     bird_rect = bird.get_rect(center=(100, 512))
-    clock.tick(120)
+    pygame.display.update()
+    clock.tick(360)
 
 def main():
     global screen
