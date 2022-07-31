@@ -13,7 +13,7 @@ def gameLoop():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     bird_movement = 0
-                    bird_movement += 0
+                    bird_movement -= 12
                     bird_rect.center = (100, 512)
         screen.fill("#246A73")
         bird_movement += gravity
