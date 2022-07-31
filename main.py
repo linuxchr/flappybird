@@ -2,6 +2,22 @@ import pygame
 import sys
 import random as rd
 
+def gameOver(score):
+    global screen
+    pygame.display.update()
+    score = "Score: " + str(score)
+    overfont = pygame.font.SysFont("monospace", 40).render("Game Over", 1, (0, 0, 0))
+    final_score = pygame.font.SysFont("monospace", 32).render(score, 1, (0, 0, 0))
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+        screen.fill("white")
+        screen.blit(final_score, (200, 512))
+        screen.blit(overfont, (180, 460))
+        pygame.display.update()
+
 def gameLoop():
     global screen, bird, gravity, bird_movement, bird_rect
     #background = pygame.image.load("assets/background.png").convert()
@@ -19,6 +35,7 @@ def gameLoop():
         bird_movement += gravity
         bird_rect.centery += gravity
         screen.blit(bird, (100, bird_movement))
+        print(bird_movement)
         pygame.display.update()
 
 def init():
@@ -38,7 +55,8 @@ def init():
 def main():
     global screen
     init()
-    gameLoop()
+    #gameLoop()
+    gameOver(16)
 
 if __name__ == "__main__":
     main()
