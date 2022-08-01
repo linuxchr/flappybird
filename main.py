@@ -1,7 +1,6 @@
-from distutils.util import execute
 import pygame
 import sys
-import random as rd
+import random
 
 def gameOver(score):
     global screen, clock, bird_movement
@@ -34,6 +33,7 @@ def gameLoop():
     global screen, bird, gravity, bird_movement, bird_rect, clock
     clock.tick(360)
     #background = pygame.image.load("assets/background.png").convert()
+    counter = 1000
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -41,29 +41,29 @@ def gameLoop():
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
-                    bird_movement = 0
-                    bird_movement -= 12
-                    bird_rect.center = (100, 512)
+                    bird_movement -= 120
         screen.fill("#246A73")
+        if counter == 1000:
+            counter = 0
+            topbut = random.randint(0, 1)
+            print(topbut)
+        else:
+            counter += 1
         bird_movement += gravity
-        bird_rect.centery += gravity
         screen.blit(bird, (100, bird_movement))
-        print(bird_movement)
         if bird_movement > 1024:
             gameOver(1)
             bird_movement = 0
             bird_movement -= 12
-            bird_rect.center = (100, 512)
             screen.fill("#246A73")
             bird_movement += gravity
-            bird_rect.centery += gravity
             screen.blit(bird, (100, bird_movement))
             pygame.display.update()
         pygame.display.update()
 
 def init():
     global screen, bird, gravity, bird_movement, bird_rect, clock
-    gravity = 0.7
+    gravity = 0.5 
     bird_movement = 0
     pygame.init()
     pygame.display.set_caption('FlappyTriangle')
@@ -76,7 +76,6 @@ def init():
     clock.tick(24)
 
 def main():
-    global screen
     init()
     gameLoop()
 
