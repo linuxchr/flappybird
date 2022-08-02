@@ -1,5 +1,7 @@
+from numpy import block
 import pygame
 import sys
+import threading
 import random
 
 def gameOver(score):
@@ -29,11 +31,23 @@ def gameOver(score):
         screen.blit(revanche, (157, 1000))
         pygame.display.update()
 
+def blocks():
+
+    counter = 1000
+    if counter == 1000:
+            counter = 0
+            topbut = 0 # random.randint(0, 2)
+            if topbut == 0:
+                print("yes")
+                blockings += pygame.draw.rect(screen, "white", pygame.Rect(30, 30, 60, 60))
+                pygame.display.update()
+            else:
+                ounter += 1
+
 def gameLoop():
     global screen, bird, gravity, bird_movement, bird_rect, clock
-    clock.tick(360)
+    clock.tick(60)
     #background = pygame.image.load("assets/background.png").convert()
-    counter = 1000
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -43,14 +57,10 @@ def gameLoop():
                 if event.key == pygame.K_SPACE:
                     bird_movement -= 120
         screen.fill("#246A73")
-        if counter == 1000:
-            counter = 0
-            topbut = random.randint(0, 1)
-            print(topbut)
-        else:
-            counter += 1
+        
         bird_movement += gravity
         screen.blit(bird, (100, bird_movement))
+        pygame.draw.rect(screen, "white", pygame.Rect(500, 400, 1, 100))
         if bird_movement > 1024:
             gameOver(1)
             bird_movement = 0
