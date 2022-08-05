@@ -1,9 +1,8 @@
 import pygame
 import sys
-import random
 
 def gameOver(score):
-    global screen, clock, bird_movement
+    global screen, clock, bird_pos
     clock.tick(24)
     pygame.display.update()
     score = "Score: " + str(score)
@@ -29,12 +28,8 @@ def gameOver(score):
         screen.blit(revanche, (157, 1000))
         pygame.display.update()
 
-
-    
-
 def gameLoop():
-    global screen, bird, gravity, bird_movement, bird_rect, clock, blocker, forwarding, size, exe
-    clock.tick(60)
+    global screen, bird, gravity, bird_pos, bird_rect, clock, pos1, speed, pos2
     #background = pygame.image.load("assets/background.png").convert()
     while True:
         for event in pygame.event.get():
@@ -43,30 +38,43 @@ def gameLoop():
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
-                    bird_movement -= 120
+                    bird_pos -= 120
         screen.fill("#246A73")
-        bird_movement += gravity
-        screen.blit(bird, (100, bird_movement))
-
-        if bird_movement > 1024:
+        bird_pos += gravity
+        screen.blit(bird, (100, bird_pos))
+        if pos1 <= 0:
+            pos1 = 546
+        else:
+            exec(f'pygame.draw.rect(screen, "#437C90", pygame.Rect({pos1}, 0, 30, 512))')
+            pos1 -= speed
+        if pos2 <= 0:
+            pos2 = 546
+        else:
+            exec(f'pygame.draw.rect(screen, "#437C90", pygame.Rect({pos2}, 512, 30, 1024))')
+            pos2 -= speed
+        if bird_pos > 1024:
             gameOver(1)
-            bird_movement = 0
-            bird_movement -= 12
+            bird_pos = 0
+            bird_pos -= 12
             screen.fill("#246A73")
-            bird_movement += gravity
-            screen.blit(bird, (100, bird_movement))
+            bird_pos += gravity
+            screen.blit(bird, (100, bird_pos))
             pygame.display.update()
+        if pos1 <= 101 and pos1 >= 99 and bird_pos <= 512: 
+            gameOver(1)
+            pos1 = 546
+        if pos2 <= 101 and pos2 >= 99 and bird_pos >= 512: 
+            gameOver(1)
+            pos2 = 500
         pygame.display.update()
 
 def init():
-    global screen, bird, gravity, bird_movement, bird_rect, clock, blocker, forwarding, counter, size, exe
+    global screen, bird, gravity, bird_pos, bird_rect, clock, pos1, speed, pos2
     gravity = 0.5 
-    bird_movement = 0
-    counter = 1000
-    blocker = []
-    size = []
-    exe = 1000
-    forwarding = []
+    bird_pos = 0
+    pos1 = 546
+    pos2 = 440
+    speed = 0.2
     pygame.init()
     pygame.display.set_caption('FlappyTriangle')
     clock = pygame.time.Clock()
