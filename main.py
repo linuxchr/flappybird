@@ -30,19 +30,25 @@ def gameOver(score):
         pygame.display.update()
 
 def blocks():
-    global screen, blocker, forwarding, counter
-    if counter == 10:
+    global screen, blocker, forwarding, counter, size
+    if counter == 1000:
         counter = 0
-        topbut= random.randint(0, 2)
+        topbut= random.randint(0, 1)
         if topbut == 0:
-            blocker.append('pygame.draw.rect(screen, "#437C90", pygame.Rect(30, 30, 60, 60))')
-        else:
-            pass
+            hight = random.randint(12, 512)
+            blocker.append(f'pygame.draw.rect(screen, "#437C90", pygame.Rect(546, 0, 30, {hight}))')
+            forwarding.append(30)
+            size.append(hight)
+        elif topbut == 1:
+            hight = random.randint(512, 1012)
+            blocker.append(f'pygame.draw.rect(screen, "#437C90", pygame.Rect(546, {hight}, 30, 1024))')
+            forwarding.append(30)
+            size.append(hight)
     else: counter += 1
     
 
 def gameLoop():
-    global screen, bird, gravity, bird_movement, bird_rect, clock, blocker, forwarding
+    global screen, bird, gravity, bird_movement, bird_rect, clock, blocker, forwarding, size
     clock.tick(60)
     #background = pygame.image.load("assets/background.png").convert()
     while True:
@@ -57,8 +63,11 @@ def gameLoop():
         bird_movement += gravity
         screen.blit(bird, (100, bird_movement))
         blocks()
+        count = 0
         for i in blocker:
-            exec(i)
+                exec(i)
+
+                blocker.remove(i)
         if bird_movement > 1024:
             gameOver(1)
             bird_movement = 0
@@ -70,11 +79,12 @@ def gameLoop():
         pygame.display.update()
 
 def init():
-    global screen, bird, gravity, bird_movement, bird_rect, clock, blocker, forwarding, counter
+    global screen, bird, gravity, bird_movement, bird_rect, clock, blocker, forwarding, counter, size
     gravity = 0.5 
     bird_movement = 0
-    counter = 10
+    counter = 1000
     blocker = []
+    size = []
     forwarding = []
     pygame.init()
     pygame.display.set_caption('FlappyTriangle')
@@ -85,8 +95,6 @@ def init():
     bird_rect = bird.get_rect(center=(100, 512))
     pygame.display.update()
     clock.tick(24)
-    blocker.append('pygame.draw.rect(screen, "#437C90", pygame.Rect(30, 30, 60, 60))')
-
 def main():
     init()
     gameLoop()
