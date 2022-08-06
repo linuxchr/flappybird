@@ -30,7 +30,6 @@ def gameOver(score):
 
 def gameLoop():
     global screen, bird, gravity, bird_pos, bird_rect, clock, pos1, speed, pos2
-    #background = pygame.image.load("assets/background.png").convert()
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -56,16 +55,20 @@ def gameLoop():
             gameOver(1)
             bird_pos = 0
             bird_pos -= 12
+            pos1 = 546
+            pos2 = 440
             screen.fill("#246A73")
             bird_pos += gravity
             screen.blit(bird, (100, bird_pos))
             pygame.display.update()
-        if pos1 <= 101 and pos1 >= 99 and bird_pos <= 512: 
+        if pos1 <= 102 and pos1 >= 98 and bird_pos <= 512:
             gameOver(1)
             pos1 = 546
-        if pos2 <= 101 and pos2 >= 99 and bird_pos >= 512: 
+            pos2 = 440
+        if pos2 <= 102 and pos2 >= 98 and bird_pos >= 512:
             gameOver(1)
-            pos2 = 500
+            pos2 = 440
+            pos1 = 546
         pygame.display.update()
 
 def init():
@@ -85,8 +88,8 @@ def init():
     pygame.display.update()
     clock.tick(24)
 def main():
-    init()
+    init() # Innit
     gameLoop()
 
 if __name__ == "__main__":
-    main()
+    main() # Start main Function
